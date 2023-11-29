@@ -1,0 +1,10 @@
+5;Pride and Prejudice;Austen Jane;Borrowed
+4;The Great Gatsby;Fitzgerald F. Scott;Borrowed
+9;Brave New World;Huxley Aldous;Borrowed
+2;To Kill a Mockingbird;Lee Harper;Borrowed
+3;1984;Orwell George;Borrowed
+10;Animal Farm;Orwell George;Borrowed
+1;Harry Potter and the Philosopher's Stone;Rowling J.K.;Borrowed
+6;The Catcher in the Rye;Salinger J.D.;Borrowed
+7;Lord of the Rings;Tolkien J.R.R.;Borrowed
+8;The Hobbit;Tolkien J.R.R.;Borrowed
