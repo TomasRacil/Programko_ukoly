@@ -1,0 +1,3 @@
+[^.!? ]*[.!?]
+
+-Reads last word at sentaces, so we can count the number of sentaces.
