@@ -64,15 +64,15 @@ vector<Obstacle*> obstacles;
 
 int main()
 {
-    srand (time(NULL));
+    srand(time(NULL));
     // File
     ifstream rfile;
     ofstream wfile;
     setup();
-    Obstacle* temp_obstacle = new Obstacle(800, 350,false);
-    obstacles.push_back(temp_obstacle); 
-    game_over=false;
-    game_menu=true;
+    Obstacle* temp_obstacle = new Obstacle(800, 350, false);
+    obstacles.push_back(temp_obstacle);
+    game_over = false;
+    game_menu = true;
 
     //Score
     rfile.open("High_score_easy.txt");
@@ -102,8 +102,8 @@ int main()
         rfile.close();
     }
 
-    
-    
+
+
     //Game loop
     while (window->isOpen())
     {
@@ -114,97 +114,98 @@ int main()
             handleEvent(event);
         }
 
-        Obstacle* temp_obstacle = nullptr;
-        if (o_count==0)
+        
+        if (o_count == 0)
         {
-            temp_obstacle = new Obstacle(800, 350,false);
+            Obstacle* temp_obstacle = nullptr;
+            temp_obstacle = new Obstacle(800, 350, false);
             obstacles.push_back(temp_obstacle);
-            o_count=1;
+            o_count = 1;
         }
         // Generování nových překážek, pokud je jich méně než max_obstacles
         while (obstacles.size() < max_obstacles)
         {
-            if (difficulty==0 || difficulty==3)
+            if (difficulty == 0 || difficulty == 3)
             {
                 int o_height = rand() % 450 + 150;
-                temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height,false);
+                temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height, false);
             }
 
-            if (difficulty==1)
+            if (difficulty == 1)
             {
                 bool o_move;
                 int o_height = rand() % 450 + 150;
                 int o_temp = rand() % 2;
-                if (o_temp ==1)
-                    o_move=true;
+                if (o_temp == 1)
+                    o_move = true;
                 else
-                    o_move=false;
-                temp_obstacle = new Obstacle(temp_obstacle->getX() + 450, o_height,o_move);
+                    o_move = false;
+                temp_obstacle = new Obstacle(obstacles.back()->getX() + 450, o_height, o_move);
             }
-            if (difficulty==2)
+            if (difficulty == 2)
             {
                 bool o_move;
                 int o_height = rand() % 500 + 100;
                 int o_temp = rand() % 2;
-                if (o_temp ==1)
-                    o_move=true;
+                if (o_temp == 1)
+                    o_move = true;
                 else
-                    o_move=false;
-                temp_obstacle = new Obstacle(temp_obstacle->getX() + 400, o_height,o_move);
+                    o_move = false;
+                temp_obstacle = new Obstacle(obstacles.back()->getX() + 400, o_height, o_move);
             }
             obstacles.push_back(temp_obstacle);
         }
-        
 
-        
 
-        
+
+
+
         //Collision check
         for (auto& obstacle : obstacles)
         {
-                if (Collision::PixelPerfectTest(flappy->getSprite(), obstacle->getSprite_bot()) || Collision::PixelPerfectTest(flappy->getSprite(), obstacle->getSprite_top()))
-                {
-                    flappy->setMoving(false);
-                }
+            if (Collision::PixelPerfectTest(flappy->getSprite(), obstacle->getSprite_bot()) || Collision::PixelPerfectTest(flappy->getSprite(), obstacle->getSprite_top()))
+            {
+                flappy->setMoving(false);
+            }
         }
 
-        if (flappy->getY()>850)
+        if (flappy->getY() > 850)
         {
             flappy->setGrav(false);
             flappy->setMoving(false);
-            game_over=true;
+            game_over = true;
         }
 
-        /* for (auto it = obstacles.begin(); it != obstacles.end(); )
+         for (auto it = obstacles.begin(); it != obstacles.end(); )
         {
             Obstacle* obstacle = *it;
 
-            if (obstacle->isOffScreen()) 
+            if (obstacle->isOffScreen())
             {
                 delete obstacle;
                 it = obstacles.erase(it);
-            } 
-            else 
+            }
+            else
             {
                 ++it;
             }
-        } */
+        } 
         update();
-        
-               
+
+
         if (game_menu)
         {
-            Sprite menuBgSprite (*menuBgTexture);
-            menuBgSprite.setScale(1200/menuBgSprite.getLocalBounds().width,(900/menuBgSprite.getLocalBounds().height));
+            Sprite menuBgSprite(*menuBgTexture);
+            menuBgSprite.setScale(1200 / menuBgSprite.getLocalBounds().width, (900 / menuBgSprite.getLocalBounds().height));
             if (!dif)
             {
-                
+
                 window->draw(menuBgSprite);
                 drawButtons(true, false);
-                text("Main Menu",500,150,test_font,Color::White,36);
-                text("Tutorial", 530,300,test_font,Color::White,36);
-                text("Start game", 500,400,test_font,Color::White,36);
-                text("Quit game", 505,500,test_font,Color::White,36);
+                text("Main Menu", 500, 150, test_font, Color::White, 36);
+                text("Tutorial", 530, 300, test_font, Color::White, 36);
+                text("Start game", 500, 400, test_font, Color::White, 36);
+                text("Quit game", 505, 500, test_font, Color::White, 36);
 
                 if (arrow_count == 0)
                 {
@@ -233,17 +234,17 @@ int main()
                 {
                     window->draw(menuBgSprite);
                     drawButtons(true, false);
-                    text("Choose your difficulty",470,160,test_font,Color::White,24);
-                    text("Easy", 550,300,test_font,Color::White,36);
-                    text("Medium", 520,400,test_font,Color::White,36);
-                    text("Hard", 550,500,test_font,Color::White,36);
+                    text("Choose your difficulty", 470, 160, test_font, Color::White, 24);
+                    text("Easy", 550, 300, test_font, Color::White, 36);
+                    text("Medium", 520, 400, test_font, Color::White, 36);
+                    text("Hard", 550, 500, test_font, Color::White, 36);
                     if (!dif)
                     {
                         arrow_count = 0;
-                        enter_count=0;
+                        enter_count = 0;
                     }
-                    dif=true;
-                    if (arrow_count==0)
+                    dif = true;
+                    if (arrow_count == 0)
                     {
                         drawArrows(arrow_count, true);
                         if (enter_count == 1)
@@ -301,14 +302,14 @@ int main()
                         enter_count = 0;
                         window->close();
                     }
-                 }
+                }
             }
         }
 
         else
-        { 
-            if(game_over==false)
-            {    
+        {
+            if (game_over == false)
+            {
                 //Clearig old screen
                 window->clear();
 
@@ -323,19 +324,19 @@ int main()
 
                 for (Obstacle* obstacle : obstacles)
                 {
-                    if(flappy->getX()>(obstacle->getX()+50) && !obstacle->getPassed())
+                    if (flappy->getX() > (obstacle->getX() + 50) && !obstacle->getPassed())
                     {
-                        score+=1;  
+                        score += 1;
                         obstacle->setPassed(true);
                     }
                 }
 
                 draw_bg(bg_scroll);
                 Sprite startPlatfromSprite(*startPlatfromTexture);
-                if (s_count==0)
+                if (s_count == 0)
                 {
-                    startPlatfromSprite.setScale(1.f,0.7f);
-                    startPlatfromSprite.setPosition(50+bg_scroll,512.f);
+                    startPlatfromSprite.setScale(1.f, 0.7f);
+                    startPlatfromSprite.setPosition(50 + bg_scroll, 512.f);
                     window->draw(startPlatfromSprite);
                 }
 
@@ -344,26 +345,26 @@ int main()
                     obstacle->draw();
                 }
 
-                if (difficulty !=3)
+                if (difficulty != 3)
                 {
-                    Sprite mainTextSprite (*mainTextTexture);
-                    mainTextSprite.setScale(200/mainTextSprite.getLocalBounds().width,(50/mainTextSprite.getLocalBounds().height));
-                    mainTextSprite.setPosition(0,20);
+                    Sprite mainTextSprite(*mainTextTexture);
+                    mainTextSprite.setScale(200 / mainTextSprite.getLocalBounds().width, (50 / mainTextSprite.getLocalBounds().height));
+                    mainTextSprite.setPosition(0, 20);
                     window->draw(mainTextSprite);
-                    text("SCORE: "+to_string(score), 30,25,test_font,Color::White,30);
+                    text("SCORE: " + to_string(score), 30, 25, test_font, Color::White, 30);
                 }
-                else if (difficulty == 3 and s_count==0)
+                else if (difficulty == 3 and s_count == 0)
                 {
-                    drawMainButton(20+bg_scroll,350);
-                    drawMainButton(420+bg_scroll,200);
-                    text("Press SPACE to jump",50+bg_scroll, 350, test_font, Color::White,36);
-                    text("Dodge the cryptonite -->",440+bg_scroll,200,test_font,Color::White,36);
+                    drawMainButton(20 + bg_scroll, 350);
+                    drawMainButton(420 + bg_scroll, 200);
+                    text("Press SPACE to jump", 50 + bg_scroll, 350, test_font, Color::White, 36);
+                    text("Dodge the cryptonite -->", 440 + bg_scroll, 200, test_font, Color::White, 36);
                 }
-                
+
                 flappy->draw();
             }
 
-            else if(game_over==true)
+            else if (game_over == true)
             {
                 if (difficulty == 0)
                 {
@@ -406,31 +407,31 @@ int main()
                         }
                     }
                 }
-            
-                if (end_scroll<600)
-                {    
-                    end_scroll+=8;
+
+                if (end_scroll < 600)
+                {
+                    end_scroll += 8;
 
                     //From leftUp corner to middle
-                    Sprite menuBgSpriteLU(*menuBgTexture, IntRect(0,0,end_scroll,end_scroll*3/4));
-                    menuBgSpriteLU.setScale(end_scroll/menuBgSpriteLU.getLocalBounds().width,(end_scroll*3/4)/menuBgSpriteLU.getLocalBounds().height);
+                    Sprite menuBgSpriteLU(*menuBgTexture, IntRect(0, 0, end_scroll, end_scroll * 3 / 4));
+                    menuBgSpriteLU.setScale(end_scroll / menuBgSpriteLU.getLocalBounds().width, (end_scroll * 3 / 4) / menuBgSpriteLU.getLocalBounds().height);
                     window->draw(menuBgSpriteLU);
 
                     //From rightUp corner to middle
-                    Sprite menuBgSpriteRU(*menuBgTexture, IntRect(1200 - end_scroll, 0, end_scroll, end_scroll*3/4));
-                    menuBgSpriteRU.setScale(end_scroll/menuBgSpriteRU.getLocalBounds().width,(end_scroll*3/4)/menuBgSpriteRU.getLocalBounds().height);
+                    Sprite menuBgSpriteRU(*menuBgTexture, IntRect(1200 - end_scroll, 0, end_scroll, end_scroll * 3 / 4));
+                    menuBgSpriteRU.setScale(end_scroll / menuBgSpriteRU.getLocalBounds().width, (end_scroll * 3 / 4) / menuBgSpriteRU.getLocalBounds().height);
                     menuBgSpriteRU.setPosition(1200 - menuBgSpriteRU.getGlobalBounds().width, 0);
                     window->draw(menuBgSpriteRU);
 
                     //From leftDown corner to middle
-                    Sprite menuBgSpriteLD(*menuBgTexture, IntRect(0, 900 - end_scroll*3/4, end_scroll, end_scroll*3/4));
-                    menuBgSpriteLD.setScale(end_scroll/menuBgSpriteLD.getLocalBounds().width,(end_scroll*3/4)/menuBgSpriteLD.getLocalBounds().height);
+                    Sprite menuBgSpriteLD(*menuBgTexture, IntRect(0, 900 - end_scroll * 3 / 4, end_scroll, end_scroll * 3 / 4));
+                    menuBgSpriteLD.setScale(end_scroll / menuBgSpriteLD.getLocalBounds().width, (end_scroll * 3 / 4) / menuBgSpriteLD.getLocalBounds().height);
                     menuBgSpriteLD.setPosition(0, 900 - menuBgSpriteLD.getGlobalBounds().height);
                     window->draw(menuBgSpriteLD);
 
                     //From rightDown corner to middle
-                    Sprite menuBgSpriteRD(*menuBgTexture, IntRect(1200 - end_scroll, 900 - end_scroll*3/4, end_scroll, end_scroll*3/4));
-                    menuBgSpriteRD.setScale(end_scroll/menuBgSpriteRD.getLocalBounds().width, (end_scroll*3/4)/menuBgSpriteRD.getLocalBounds().height);
+                    Sprite menuBgSpriteRD(*menuBgTexture, IntRect(1200 - end_scroll, 900 - end_scroll * 3 / 4, end_scroll, end_scroll * 3 / 4));
+                    menuBgSpriteRD.setScale(end_scroll / menuBgSpriteRD.getLocalBounds().width, (end_scroll * 3 / 4) / menuBgSpriteRD.getLocalBounds().height);
                     menuBgSpriteRD.setPosition(1200 - menuBgSpriteRD.getGlobalBounds().width, 900 - menuBgSpriteRD.getGlobalBounds().height);
                     window->draw(menuBgSpriteRD);
                 }
@@ -441,7 +442,7 @@ int main()
 
                     //Menu
                     Sprite menuBgSprite(*menuBgTexture);
-                    menuBgSprite.setScale(1200/menuBgSprite.getLocalBounds().width,900/menuBgSprite.getLocalBounds().height);
+                    menuBgSprite.setScale(1200 / menuBgSprite.getLocalBounds().width, 900 / menuBgSprite.getLocalBounds().height);
                     window->draw(menuBgSprite);
 
                     if (difficulty != 3)
@@ -449,38 +450,38 @@ int main()
                         drawButtons(false, false);
                         if (difficulty == 0)
                         {
-                            text("SCORE: " + std::to_string(score), 510, 300, test_font, Color::White,36);
+                            text("SCORE: " + std::to_string(score), 510, 300, test_font, Color::White, 36);
                             if (score < high_score_easy)
                             {
-                                text("HIGH SCORE: " + std::to_string(high_score_easy), 495, 410, test_font, Color::White,30);
+                                text("HIGH SCORE: " + std::to_string(high_score_easy), 495, 410, test_font, Color::White, 30);
                             }
                             if (score >= high_score_easy)
                             {
-                                text("NEW HIGH SCORE: " + std::to_string(high_score_easy), 465, 410, test_font, Color::White,24);
+                                text("NEW HIGH SCORE: " + std::to_string(high_score_easy), 465, 410, test_font, Color::White, 24);
                             }
                         }
                         if (difficulty == 1)
                         {
-                            text("SCORE: " + std::to_string(score), 510, 300, test_font, Color::White,36);
+                            text("SCORE: " + std::to_string(score), 510, 300, test_font, Color::White, 36);
                             if (score < high_score_medium)
                             {
-                                text("HIGH SCORE: " + std::to_string(high_score_medium), 495, 410, test_font, Color::White,24);
+                                text("HIGH SCORE: " + std::to_string(high_score_medium), 495, 410, test_font, Color::White, 24);
                             }
                             if (score >= high_score_medium)
                             {
-                                text("NEW HIGH SCORE: " + std::to_string(high_score_medium), 465, 410, test_font, Color::White,24);
+                                text("NEW HIGH SCORE: " + std::to_string(high_score_medium), 465, 410, test_font, Color::White, 24);
                             }
                         }
                         if (difficulty == 2)
                         {
-                            text("SCORE: " + std::to_string(score), 510, 300, test_font, Color::White,36);
+                            text("SCORE: " + std::to_string(score), 510, 300, test_font, Color::White, 36);
                             if (score < high_score_hard)
                             {
-                                text("HIGH SCORE: " + std::to_string(high_score_hard), 495, 410, test_font, Color::White,30);
+                                text("HIGH SCORE: " + std::to_string(high_score_hard), 495, 410, test_font, Color::White, 30);
                             }
                             if (score >= high_score_hard)
                             {
-                                text("NEW HIGH SCORE: " + std::to_string(high_score_hard), 465, 410, test_font, Color::White,24);
+                                text("NEW HIGH SCORE: " + std::to_string(high_score_hard), 465, 410, test_font, Color::White, 24);
                             }
                         }
                     }
@@ -491,62 +492,62 @@ int main()
 
 
                     //arrows
-                    
-                    text("Game Over!!",480,150,test_font,Color::White, 36);
-                    text("Play again", 505,500,test_font,Color::White,36);
-                    text("Main menu", 500,600,test_font,Color::White,36);
-                    text("Quit game", 505,700,test_font,Color::White,36);
 
-                    if (arrow_count==0)
+                    text("Game Over!!", 480, 150, test_font, Color::White, 36);
+                    text("Play again", 505, 500, test_font, Color::White, 36);
+                    text("Main menu", 500, 600, test_font, Color::White, 36);
+                    text("Quit game", 505, 700, test_font, Color::White, 36);
+
+                    if (arrow_count == 0)
                     {
-                        drawArrows(arrow_count,false);
-                        if (enter_count==1)
+                        drawArrows(arrow_count, false);
+                        if (enter_count == 1)
                         {
-                            enter_count=0;
+                            enter_count = 0;
                             obstacles.clear();
-                            Obstacle* temp_obstacle = new Obstacle(800, 350,false);
+                            Obstacle* temp_obstacle = new Obstacle(800, 350, false);
                             obstacles.push_back(temp_obstacle);
                             // Generování nových překážek, pokud je jich méně než max_obstacles
                             while (obstacles.size() < max_obstacles)
                             {
-                                if (difficulty==0 || difficulty==3)
+                                if (difficulty == 0 || difficulty == 3)
                                 {
                                     int o_height = rand() % 450 + 150;
-                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height,false);
+                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height, false);
                                 }
 
-                                if (difficulty==1)
+                                if (difficulty == 1)
                                 {
                                     bool o_move;
                                     int o_height = rand() % 450 + 150;
                                     int o_temp = rand() % 2;
-                                    if (o_temp ==1)
-                                        o_move=true;
+                                    if (o_temp == 1)
+                                        o_move = true;
                                     else
-                                        o_move=false;
-                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 450, o_height,o_move);
+                                        o_move = false;
+                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 450, o_height, o_move);
                                 }
-                                if (difficulty==2)
+                                if (difficulty == 2)
                                 {
                                     bool o_move;
                                     int o_height = rand() % 500 + 100;
                                     int o_temp = rand() % 2;
-                                    if (o_temp ==1)
-                                        o_move=true;
+                                    if (o_temp == 1)
+                                        o_move = true;
                                     else
-                                        o_move=false;
-                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 400, o_height,o_move);
+                                        o_move = false;
+                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 400, o_height, o_move);
                                 }
                                 obstacles.push_back(temp_obstacle);
                             }
                             flappy = new Player(difficulty);
-                            arrow_count=0;
-                            bg_scroll=0;
-                            s_count=0;
-                            end_scroll=0;
-                            o_count=0;
-                            score=0;
-                            game_over=false;
+                            arrow_count = 0;
+                            bg_scroll = 0;
+                            s_count = 0;
+                            end_scroll = 0;
+                            o_count = 0;
+                            score = 0;
+                            game_over = false;
                         }
                     }
 
@@ -558,38 +559,38 @@ int main()
                             enter_count = 0;
                             game_menu = true;
                             obstacles.clear();
-                            Obstacle* temp_obstacle = new Obstacle(800, 350,false);
+                            Obstacle* temp_obstacle = new Obstacle(800, 350, false);
                             obstacles.push_back(temp_obstacle);
                             // Generování nových překážek, pokud je jich méně než max_obstacles
                             while (obstacles.size() < max_obstacles)
                             {
-                                if (difficulty==0 || difficulty==3)
+                                if (difficulty == 0 || difficulty == 3)
                                 {
                                     int o_height = rand() % 450 + 150;
-                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height,false);
+                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height, false);
                                 }
 
-                                if (difficulty==1)
+                                if (difficulty == 1)
                                 {
                                     bool o_move;
                                     int o_height = rand() % 450 + 150;
                                     int o_temp = rand() % 1 + 0;
-                                    if (o_temp ==1)
-                                        o_move=true;
+                                    if (o_temp == 1)
+                                        o_move = true;
                                     else
-                                        o_move=false;
-                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 450, o_height,o_move);
+                                        o_move = false;
+                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 450, o_height, o_move);
                                 }
-                                if (difficulty==2)
+                                if (difficulty == 2)
                                 {
                                     bool o_move;
                                     int o_height = rand() % 500 + 100;
                                     int o_temp = rand() % 1 + 0;
-                                    if (o_temp ==1)
-                                        o_move=true;
+                                    if (o_temp == 1)
+                                        o_move = true;
                                     else
-                                        o_move=false;
-                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height,o_move);
+                                        o_move = false;
+                                    temp_obstacle = new Obstacle(temp_obstacle->getX() + 500, o_height, o_move);
                                 }
                                 obstacles.push_back(temp_obstacle);
                             }
@@ -598,8 +599,8 @@ int main()
                             end_scroll = 0;
                             score = 0;
                             bg_scroll = 0;
-                            s_count=0;
-                            o_count=0;
+                            s_count = 0;
+                            o_count = 0;
                         }
                     }
 
@@ -618,7 +619,7 @@ int main()
         }
 
         window->display();
-        
+
     }
 
     destroy();
